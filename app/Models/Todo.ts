@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Todo extends BaseModel {
   @column({ isPrimary: true })
@@ -23,4 +23,9 @@ export default class Todo extends BaseModel {
     serialize: (value: DateTime) => value.toFormat('yyyy LLL dd'),
   })
   public updatedAt: DateTime
+
+  @computed()
+  public get user() {
+    return 'ngeene'
+  }
 }

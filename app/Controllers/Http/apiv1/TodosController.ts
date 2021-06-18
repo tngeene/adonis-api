@@ -9,6 +9,10 @@ export default class TodosController {
     // pagination
     const page = request.input('page', 1)
     const limit = request.input('per_page', 2)
+
+    // return specific fields
+    // const todos = await Todo.all()
+    // return (await todos).map((todo) => todo.serialize({ fields: ['id', 'title', 'is_complete'] }))
     return Todo.query().paginate(page, limit)
   }
   public async store({ request, response }: HttpContextContract) {
