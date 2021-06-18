@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Mail from '@ioc:Adonis/Addons/Mail'
 
 export default class RegistersController {
   public async register({ request, response }: HttpContextContract) {
@@ -13,6 +13,13 @@ export default class RegistersController {
     const data = await request.validate({ schema: validations })
 
     const user = await User.create(data)
+    await Mail.send((message) => {
+      message
+        .from('support@todos.com')
+        .to(data.email)
+        .subject('Welcome to BlockParties')
+        .htmlView('emails/welcome', { email: data.email })
+    })
     return response.created(user)
   }
 
