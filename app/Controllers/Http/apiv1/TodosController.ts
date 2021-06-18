@@ -5,8 +5,11 @@ export default class TodosController {
   /**
    * async index
    */
-  public async index() {
-    return Todo.all()
+  public async index({ request }) {
+    // pagination
+    const page = request.input('page', 1)
+    const limit = request.input('per_page', 2)
+    return Todo.query().paginate(page, limit)
   }
   public async store({ request, response }: HttpContextContract) {
     Todo.create({ title: request.input('title'), is_complete: false })
